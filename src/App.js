@@ -4,11 +4,38 @@ import {Route, Link} from 'react-router-dom'
 import './App.css'
 
 class BooksApp extends React.Component {
+    componentDidMount() {
+        BooksAPI.getAll().then((books) => {
+            this.setState(() => ({
+                books
+            }));
+            console.log(books)
+        });
+        console.log(this.state.books);
+    }
+
     state = {
-        showSearchPage: false
+        books: [],
+        query: ''
+    };
+
+    updateQuery = (query) => {
+        this.setState(() => ({
+            query: query.trim()
+        }));
+    };
+
+    clearQuery = () => {
+        this.updateQuery('')
     };
 
     render() {
+        const {query} = this.state;
+        const showingBooks = query !== '';
+        // const showBooks = async (q) => {
+        //     return BooksAPI.search(query);
+        // };
+
         return (
             <div className="app">
                 <Route exact path='/search' render={() => (
@@ -23,13 +50,44 @@ class BooksApp extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                                <input type="text" placeholder="Search by title or author"/>
-
+                                <input type="text"
+                                       placeholder="Search by title or author"
+                                       value={query}
+                                       onChange={(event) => this.updateQuery(event.target.value)}
+                                />
                             </div>
                         </div>
-                        <div className="search-books-results">
-                            <ol className="books-grid"></ol>
-                        </div>
+                        {showingBooks && (
+                            <div className="search-books-results">
+                                <ol className="books-grid">
+                                    {this.state.books.map((b) => (
+                                        <li>
+                                            <div className="book">
+                                                <div className="book-top">
+                                                    <div className="book-cover" style={{
+                                                        width: 128,
+                                                        height: 193,
+                                                        backgroundImage: `url(${b.imageLinks.smallThumbnail})`
+                                                    }}></div>
+                                                    <div className="book-shelf-changer">
+                                                        <select>
+                                                            <option value="move" disabled>Move to...</option>
+                                                            <option value="currentlyReading">Currently Reading
+                                                            </option>
+                                                            <option value="wantToRead">Want to Read</option>
+                                                            <option value="read">Read</option>
+                                                            <option value="none">None</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="book-title">{b.title}</div>
+                                                <div className="book-authors">{b.subtitle}</div>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        )}
                     </div>
                 )}/>
                 <Route exact path='/' render={() => (
