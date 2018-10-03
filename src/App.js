@@ -3,7 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import {Route, Link} from 'react-router-dom'
 import './App.css'
 import Book from './Book';
-import Bookshelf from './Bookshelf';
+import List from './List';
 
 class BooksApp extends React.Component {
     componentDidMount() {
@@ -73,21 +73,7 @@ class BooksApp extends React.Component {
                     </div>
                 )}/>
                 <Route exact path='/' render={() => (
-                    <div className="list-books">
-                        <div className="list-books-title">
-                            <h1>MyReads</h1>
-                        </div>
-                        <div className="list-books-content">
-                            <div>
-                                <Bookshelf books={this.state.books} title='Currently Reading'/>
-                                <Bookshelf books={this.state.books} title='Want to Read'/>
-                                <Bookshelf books={this.state.books} title='Read'/>
-                            </div>
-                        </div>
-                        <div className="open-search">
-                            <Link to='/search'>Add a book</Link>
-                        </div>
-                    </div>
+                    <List currently={} want={} read={} books={this.state.books}/>
                 )}/>
             </div>
         )
