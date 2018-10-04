@@ -1,31 +1,31 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-
 import Book from "./Book";
+import * as BooksAPI from './BooksAPI';
 
 class Search extends Component {
     state = {
-        query: ''
+        query: '',
+        books: []
     };
 
     updateQuery = (query) => {
+        // const q = query;
         this.setState(() => ({
-            query: query.trim()
+            query
         }));
-    };
-
-    clearQuery = () => {
-        this.updateQuery('')
+        if (query) {
+            BooksAPI.search(query).then((books) => {
+                this.setState(() => ({
+                    books
+                }));
+            });
+        }
     };
 
     render() {
-        const {query} = this.state;
-        const {books} = this.props;
-        const showingBooks = query !== '';
-        // const showBooks = async (q) => {
-        //     return BooksAPI.search(query);
-        // };
-
+        const {query, books} = this.state;
+        const showingBooks = query !== '' && books.length > 0;
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -45,8 +45,18 @@ class Search extends Component {
                         />
                     </div>
                 </div>
-                {showingBooks && (
-                    <div className="search-books-results">
+                <div className="search-books-results">
+                    {query !== '' && books.error && books.items !== [] && (
+                        <ol className="books-grid">
+                            {books.error}
+                        </ol>
+                    )}
+                    {(query === '' || books.length === 0) && (
+                        <ol className="books-grid">
+                            No books to display
+                        </ol>
+                    )}
+                    {showingBooks && (
                         <ol className="books-grid">
                             {books.map((book) => (
                                 <li key={book.id}>
@@ -54,8 +64,8 @@ class Search extends Component {
                                 </li>
                             ))}
                         </ol>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         )
     }
