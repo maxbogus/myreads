@@ -7,29 +7,48 @@ import List from './List';
 import Search from './Search';
 
 class BooksApp extends React.Component {
-    componentDidMount() {
-        BooksAPI.getAll().then((books) => {
-            this.setState(() => ({
-                books
-            }));
-            console.log(books)
-        });
-        console.log(this.state.books);
-    }
-
     state = {
         books: [],
+        read: [],
+        current: [],
+        want: [],
+    };
+
+    addBook = ({book, action}) => {
+        console.log(book, action);
+        if (action !== 'none') {
+            this.setState((prevState) => ({
+                books: prevState.books.concat([book])
+            }));
+            if (action === 'read') {
+                this.setState((prevState) => ({
+                    read: prevState.read.concat([book.id])
+                }));
+            }
+            if (action === 'want') {
+                this.setState((prevState) => ({
+                    want: prevState.want.concat([book.id])
+                }));
+            }
+            if (action === 'current') {
+                this.setState((prevState) => ({
+                    current: prevState.current.concat([book.id])
+                }));
+            }
+        }
     };
 
     render() {
-        const {books} = this.state;
+        // const {books, current, read, want} = this.state;
         return (
             <div className="app">
                 <Route exact path='/search' render={() => (
-                    <Search books={books}/>
+                    <Search onSearchBook={(action) => {
+                        this.addBook(action);
+                    }}/>
                 )}/>
                 <Route exact path='/' render={() => (
-                    <List books={books}/>
+                    <List {...this.state}/>
                 )}/>
             </div>
         )

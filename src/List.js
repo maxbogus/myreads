@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 class List extends Component {
     render() {
-        const {books} = this.props;
+        const {books, current, read, want} = this.props;
         return (
             <div className="list-books">
                 <div className="list-books-title">
@@ -12,9 +12,9 @@ class List extends Component {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        <Bookshelf books={books} title='Currently Reading'/>
-                        <Bookshelf books={books} title='Want to Read'/>
-                        <Bookshelf books={books} title='Read'/>
+                        <Bookshelf books={books.filter((book) => {return current.indexOf(book.id) !== -1;})} title='Currently Reading'/>
+                        <Bookshelf books={books.filter((book) => {return want.indexOf(book.id) !== -1;})} title='Want to Read'/>
+                        <Bookshelf books={books.filter((book) => {return read.indexOf(book.id) !== -1;})} title='Read'/>
                     </div>
                 </div>
                 <div className="open-search">

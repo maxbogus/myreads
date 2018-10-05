@@ -1,6 +1,19 @@
 import React, {Component} from 'react';
 
 class Book extends Component {
+    handleChange = (event) => {
+        console.log({
+            book: this.props.book,
+            action: event.target.value
+        }); // => "click"
+        if (this.props.onSearchBook && this.props.book) {
+            this.props.onSearchBook({
+                book: this.props.book,
+                action: event.target.value
+            });
+        }
+    };
+
     render() {
         const {book} = this.props;
         const image = (book.imageLinks && book.imageLinks.smallThumbnail) ? `url(${book.imageLinks.smallThumbnail})` : null;
@@ -14,7 +27,7 @@ class Book extends Component {
                              backgroundImage: image
                          }}/>
                     <div className="book-shelf-changer">
-                        <select>
+                        <select onChange={this.handleChange}>
                             <option value="move" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading
                             </option>
