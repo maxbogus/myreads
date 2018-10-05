@@ -42,9 +42,10 @@ class BooksApp extends React.Component {
         // const {books, current, read, want} = this.state;
         return (
             <div className="app">
-                <Route exact path='/search' render={() => (
+                <Route exact path='/search' render={({history}) => (
                     <Search onSearchBook={(action) => {
                         this.addBook(action);
+                        history.push('/')
                     }}/>
                 )}/>
                 <Route exact path='/' render={() => (
