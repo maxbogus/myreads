@@ -17,7 +17,7 @@ class Book extends Component {
     render() {
         const {book, defaultValue} = this.props;
         const image = (book.imageLinks && book.imageLinks.smallThumbnail) ? `url(${book.imageLinks.smallThumbnail})` : null;
-        const value = defaultValue ? defaultValue : 'move';
+        const value = defaultValue ? defaultValue : 'none';
         return (
             <div className="book">
                 <div className="book-top">

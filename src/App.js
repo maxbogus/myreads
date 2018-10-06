@@ -76,7 +76,7 @@ class BooksApp extends React.Component {
                 <Route exact path='/search' render={() => (
                     <Search onSearchBook={(action) => {
                         this.processBook(action);
-                    }}/>
+                    }} {...this.state}/>
                 )}/>
                 <Route exact path='/' render={() => (
                     <List onSearchBook={(action) => {
