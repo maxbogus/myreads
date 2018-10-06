@@ -24,7 +24,7 @@ class Search extends Component {
 
     render() {
         const {query, books} = this.state;
-        const { onSearchBook} = this.props;
+        const {onSearchBook} = this.props;
         const showingBooks = query !== '' && books.length > 0;
         return (
             <div className="search-books">

@@ -2,7 +2,6 @@ import React from 'react'
 import {Route} from 'react-router-dom'
 
 import './App.css'
-import * as BooksAPI from './BooksAPI';
 import List from './List';
 import Search from './Search';
 
@@ -15,22 +14,24 @@ class BooksApp extends React.Component {
     };
 
     addBook = ({book, action}) => {
-        console.log(book, action);
         if (action !== 'none') {
-            this.setState((prevState) => ({
-                books: prevState.books.concat([book])
-            }));
+            if (this.state.books === [] || this.state.books.filter((b) => book.id !== b.id).length === this.state.books.length) {
+                this.setState((prevState) => ({
+                    books: prevState.books.concat([book])
+                }));
+            }
+
             if (action === 'read') {
                 this.setState((prevState) => ({
                     read: prevState.read.concat([book.id])
                 }));
             }
-            if (action === 'want') {
+            if (action === 'wantToRead') {
                 this.setState((prevState) => ({
                     want: prevState.want.concat([book.id])
                 }));
             }
-            if (action === 'current') {
+            if (action === 'currentlyReading') {
                 this.setState((prevState) => ({
                     current: prevState.current.concat([book.id])
                 }));
@@ -39,17 +40,20 @@ class BooksApp extends React.Component {
     };
 
     render() {
-        // const {books, current, read, want} = this.state;
         return (
             <div className="app">
                 <Route exact path='/search' render={({history}) => (
                     <Search onSearchBook={(action) => {
                         this.addBook(action);
+                        console.log(this.state);
                         history.push('/')
                     }}/>
                 )}/>
                 <Route exact path='/' render={() => (
-                    <List {...this.state}/>
+                    <List onSearchBook={(action) => {
+                        this.addBook(action);
+                        console.log(this.state)
+                    }} {...this.state}/>
                 )}/>
             </div>
         )
