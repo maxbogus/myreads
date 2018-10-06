@@ -5,7 +5,7 @@ import Bookshelf from './Bookshelf';
 
 class List extends Component {
     render() {
-        const {books, current, read, want, onSearchBook} = this.props;
+        const {books, onSearchBook} = this.props;
         return (
             <div className="list-books">
                 <div className="list-books-title">
@@ -14,21 +14,21 @@ class List extends Component {
                 <div className="list-books-content">
                     <div>
                         <Bookshelf books={books.filter((book) => {
-                            return current.indexOf(book.id) !== -1;
+                            return book.action === 'currentlyReading';
                         })}
                                    defaultValue='currentlyReading'
                                    onSearchBook={(action) => onSearchBook(action)}
                                    title='Currently Reading'
                         />
                         <Bookshelf books={books.filter((book) => {
-                            return want.indexOf(book.id) !== -1;
+                            return book.action === 'wantToRead';
                         })}
                                    defaultValue='wantToRead'
                                    onSearchBook={(action) => onSearchBook(action)}
                                    title='Want to Read'
                         />
                         <Bookshelf books={books.filter((book) => {
-                            return read.indexOf(book.id) !== -1;
+                            return book.action === 'read';
                         })}
                                    defaultValue='read'
                                    onSearchBook={(action) => onSearchBook(action)}

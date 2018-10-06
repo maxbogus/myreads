@@ -2,22 +2,19 @@ import React, {Component} from 'react';
 
 class Book extends Component {
     handleChange = (event) => {
-        console.log({
-            book: this.props.book,
-            action: event.target.value
-        }); // => "click"
         if (this.props.onSearchBook && this.props.book) {
+            const selectedBook = this.props.book;
+            selectedBook.action = event.target.value;
             this.props.onSearchBook({
-                book: this.props.book,
-                action: event.target.value
+                book: selectedBook
             });
         }
     };
 
     render() {
-        const {book, defaultValue} = this.props;
+        const {book} = this.props;
         const image = (book.imageLinks && book.imageLinks.smallThumbnail) ? `url(${book.imageLinks.smallThumbnail})` : null;
-        const value = defaultValue ? defaultValue : 'none';
+        const value = book.action ? book.action : 'none';
         return (
             <div className="book">
                 <div className="book-top">
