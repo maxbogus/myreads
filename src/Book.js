@@ -12,9 +12,10 @@ class Book extends Component {
     };
 
     render() {
-        const {book} = this.props;
+        const {book, books} = this.props;
         const image = (book.imageLinks && book.imageLinks.smallThumbnail) ? `url(${book.imageLinks.smallThumbnail})` : null;
-        const value = book.action ? book.action : 'none';
+        const bookFromShelf = (books) ? books.filter((b) => b.id === book.id)[0] : null;
+        const value = (bookFromShelf) ? bookFromShelf.action : 'none';
         return (
             <div className="book">
                 <div className="book-top">
