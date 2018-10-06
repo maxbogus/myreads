@@ -15,8 +15,9 @@ class Book extends Component {
     };
 
     render() {
-        const {book} = this.props;
+        const {book, defaultValue} = this.props;
         const image = (book.imageLinks && book.imageLinks.smallThumbnail) ? `url(${book.imageLinks.smallThumbnail})` : null;
+        const value = defaultValue ? defaultValue : 'move';
         return (
             <div className="book">
                 <div className="book-top">
@@ -27,7 +28,7 @@ class Book extends Component {
                              backgroundImage: image
                          }}/>
                     <div className="book-shelf-changer">
-                        <select onChange={this.handleChange}>
+                        <select onChange={this.handleChange} value={value}>
                             <option value="move" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading
                             </option>
@@ -38,7 +39,7 @@ class Book extends Component {
                     </div>
                 </div>
                 <div className="book-title">{book.title}</div>
-                { book.authors && (
+                {book.authors && (
                     <div className="book-authors">{book.authors.join(', ')}</div>
                 )}
             </div>

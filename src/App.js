@@ -73,10 +73,9 @@ class BooksApp extends React.Component {
     render() {
         return (
             <div className="app">
-                <Route exact path='/search' render={({history}) => (
+                <Route exact path='/search' render={() => (
                     <Search onSearchBook={(action) => {
                         this.processBook(action);
-                        history.push('/')
                     }}/>
                 )}/>
                 <Route exact path='/' render={() => (

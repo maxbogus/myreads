@@ -16,18 +16,21 @@ class List extends Component {
                         <Bookshelf books={books.filter((book) => {
                             return current.indexOf(book.id) !== -1;
                         })}
+                                   defaultValue='currentlyReading'
                                    onSearchBook={(action) => onSearchBook(action)}
                                    title='Currently Reading'
                         />
                         <Bookshelf books={books.filter((book) => {
                             return want.indexOf(book.id) !== -1;
                         })}
+                                   defaultValue='wantToRead'
                                    onSearchBook={(action) => onSearchBook(action)}
                                    title='Want to Read'
                         />
                         <Bookshelf books={books.filter((book) => {
                             return read.indexOf(book.id) !== -1;
                         })}
+                                   defaultValue='read'
                                    onSearchBook={(action) => onSearchBook(action)}
                                    title='Read'
                         />
