@@ -13,13 +13,42 @@ class BooksApp extends React.Component {
         want: [],
     };
 
-    addBook = ({book, action}) => {
+    removeBook = (book) => {
+        this.setState((prevState) => ({
+            books: prevState.books.filter((b) => (b.id !== book.id))
+        }));
+    };
+
+    filterBook = (book) => {
+        const readIndex = this.state.read.indexOf(book.id);
+        if (readIndex !== -1) {
+            this.setState((prevState) => ({
+                read: prevState.read.filter((b) => b !== book.id)
+            }));
+        }
+        const wantIndex = this.state.want.indexOf(book.id);
+        if (wantIndex !== -1) {
+            this.setState((prevState) => ({
+                want: prevState.want.filter((b) => b !== book.id)
+            }));
+        }
+        const currentIndex = this.state.current.indexOf(book.id);
+        if (currentIndex !== -1) {
+            this.setState((prevState) => ({
+                current: prevState.current.filter((b) => b !== book.id)
+            }));
+        }
+    };
+
+    processBook = ({book, action}) => {
         if (action !== 'none') {
             if (this.state.books === [] || this.state.books.filter((b) => book.id !== b.id).length === this.state.books.length) {
                 this.setState((prevState) => ({
                     books: prevState.books.concat([book])
                 }));
             }
+
+            this.filterBook(book);
 
             if (action === 'read') {
                 this.setState((prevState) => ({
@@ -36,6 +65,8 @@ class BooksApp extends React.Component {
                     current: prevState.current.concat([book.id])
                 }));
             }
+        } else {
+            this.removeBook(book);
         }
     };
 
@@ -44,15 +75,13 @@ class BooksApp extends React.Component {
             <div className="app">
                 <Route exact path='/search' render={({history}) => (
                     <Search onSearchBook={(action) => {
-                        this.addBook(action);
-                        console.log(this.state);
+                        this.processBook(action);
                         history.push('/')
                     }}/>
                 )}/>
                 <Route exact path='/' render={() => (
                     <List onSearchBook={(action) => {
-                        this.addBook(action);
-                        console.log(this.state)
+                        this.processBook(action);
                     }} {...this.state}/>
                 )}/>
             </div>
