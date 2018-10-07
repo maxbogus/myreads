@@ -16,11 +16,11 @@ class BooksApp extends React.Component {
             this.setState(() => ({
                 books: books
             }));
-            console.log(books, this.state);
         });
     }
 
     processBook = ({book}) => {
+        BooksAPI.update(book, book.shelf);
         this.setState((prevState) => ({
             books: prevState.books.filter((b) => book.id !== b.id).concat([book])
         }));
