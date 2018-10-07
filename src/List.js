@@ -14,23 +14,20 @@ class List extends Component {
                 <div className="list-books-content">
                     <div>
                         <Bookshelf books={books.filter((book) => {
-                            return book.action === 'currentlyReading';
+                            return book.shelf === 'currentlyReading';
                         })}
-                                   defaultValue='currentlyReading'
                                    onSearchBook={(action) => onSearchBook(action)}
                                    title='Currently Reading'
                         />
                         <Bookshelf books={books.filter((book) => {
-                            return book.action === 'wantToRead';
+                            return book.shelf === 'wantToRead';
                         })}
-                                   defaultValue='wantToRead'
                                    onSearchBook={(action) => onSearchBook(action)}
                                    title='Want to Read'
                         />
                         <Bookshelf books={books.filter((book) => {
-                            return book.action === 'read';
+                            return book.shelf === 'read';
                         })}
-                                   defaultValue='read'
                                    onSearchBook={(action) => onSearchBook(action)}
                                    title='Read'
                         />

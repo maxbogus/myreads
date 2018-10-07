@@ -4,7 +4,7 @@ class Book extends Component {
     handleChange = (event) => {
         if (this.props.onSearchBook && this.props.book) {
             const selectedBook = this.props.book;
-            selectedBook.action = event.target.value;
+            selectedBook.shelf = event.target.value;
             this.props.onSearchBook({
                 book: selectedBook
             });
@@ -12,10 +12,9 @@ class Book extends Component {
     };
 
     render() {
-        const {book, books} = this.props;
+        const {book} = this.props;
         const image = (book.imageLinks && book.imageLinks.smallThumbnail) ? `url(${book.imageLinks.smallThumbnail})` : null;
-        const bookFromShelf = (books) ? books.filter((b) => b.id === book.id)[0] : null;
-        const value = (bookFromShelf) ? bookFromShelf.action : 'none';
+        const value = (book.shelf) ? book.shelf : 'none';
         return (
             <div className="book">
                 <div className="book-top">

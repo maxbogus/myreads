@@ -1,7 +1,8 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
 
-import './App.css'
+import './App.css';
+import * as BooksAPI from './BooksAPI';
 import List from './List';
 import Search from './Search';
 
@@ -9,6 +10,15 @@ class BooksApp extends React.Component {
     state = {
         books: [],
     };
+
+    componentWillMount() {
+        BooksAPI.getAll().then((books) => {
+            this.setState(() => ({
+                books: books
+            }));
+            console.log(books, this.state);
+        });
+    }
 
     processBook = ({book}) => {
         this.setState((prevState) => ({

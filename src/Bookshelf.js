@@ -3,7 +3,7 @@ import Book from "./Book";
 
 class Bookshelf extends Component {
     render() {
-        const {books, title, onSearchBook, defaultValue} = this.props;
+        const {books, title, onSearchBook} = this.props;
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{title}</h2>
@@ -12,7 +12,6 @@ class Bookshelf extends Component {
                         {books.map((book) => (
                             <li key={book.id}>
                                 <Book book={book}
-                                      defaultValue={defaultValue}
                                       onSearchBook={(action) => onSearchBook(action)}
                                 />
                             </li>
